@@ -1,32 +1,47 @@
-.App {
-  text-align: center;
+body{
+  margin: 0;
+  padding: 0;
 }
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
+.trello-home-board{
+  margin-bottom: 2%;
+  display: block;
+  text-decoration: none;
+  color: rgba(0,0,0,0.9);
+  width: 400px;
+  height: 150px;
+  border: 1px solid rgba(0,0,0,0.1);
+  padding: 0% 2%;
+  cursor: pointer;
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.trello-home-boards{
+  margin-top: 5%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
-
-.App-link {
-  color: #61dafb;
+.trello-board-nav-bar{
+  display: flex;
+  justify-content: space-between;
+  height: 30px;
+  border: 1px solid rgba(0,0,0,0.1);
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.trello-board-nav-bar span{
+  font-family: 'Lobster', cursive;
+  font-size: 1.8em;
+  align-self: center;
+  /* color: rgba(255, 255, 255, 0.6); */
+}
+.trello-board-lists{
+  display: flex;
+  justify-content: space-around;
+}
+.trello-board-list{
+  background-color: rgba(0,0,0,0.2);
+  width: 200px;
+  padding: 0px 10px;
+  border-radius: 5%;
+}
+.trello-board-cards p{
+  background-color: rgba(255, 255, 255, 0.5);
+  padding:5px 2px;
 }
