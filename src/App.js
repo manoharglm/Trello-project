@@ -33,25 +33,7 @@ class App extends Component {
         })
       );
   };
-  // GetListsOnSelect = id =>{
-  //   fetch(
-  //     "https://api.trello.com/1/members/me/boards?key=b6e6c194159d7563747cdc5642408d98&token=af7ec08178723de23d448b31e4a424716376da3724aaa797d23aad6782bf3f7b",
-  //     {
-  //       headers: {
-  //         "Content-Type": "application/json"
-  //       }
-  //     }
-  //   )
-  //     .then(res => res.json())
-  //     .then(trelloData =>
-  //       this.setState({
-  //         boards: trelloData
-  //       })
-  //     );
-  // }
-  // GetCardsOnSelect = id =>{
-    
-  // }
+
   DisplayBoardOnSelect = id => {
     fetch(
       `https://api.trello.com/1/boards/${id}?cards=all&checklists=none&fields=name%2Cdesc%2CdescData%2Cclosed%2CidOrganization%2Cpinned%2Curl%2CshortUrl%2Cprefs%2ClabelNames&lists=open&key=b6e6c194159d7563747cdc5642408d98&token=af7ec08178723de23d448b31e4a424716376da3724aaa797d23aad6782bf3f7b`,
@@ -72,40 +54,6 @@ class App extends Component {
     this.setState(state => ({
       board: ""
     }));
-  };
-
-  updateList = (list,op) =>{
-    (op) ? this.state.board.lists.push(list) : this.state.board.lists.pop()
-    this.setState((state) =>({
-      board:this.state.board
-    }))
-  }
-  createNewCard = (value, listId) => {
-    if(value!== ''){
-
-      let bodyData = {
-        name: value,
-        idList: listId
-      };
-      
-      fetch(
-        `https://api.trello.com/1/cards?keepFromSource=all&key=b6e6c194159d7563747cdc5642408d98&token=af7ec08178723de23d448b31e4a424716376da3724aaa797d23aad6782bf3f7b`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(bodyData)
-        }
-      )
-        .then(res => res.json())
-        .then(card => {
-          this.setState({
-            cards:[...this.state.cards,card]
-          })
-        });
-    }
-    
   };
 
   render() {

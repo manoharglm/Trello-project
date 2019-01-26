@@ -110,7 +110,8 @@ body{
   border-radius: 6px;
 }
 .trello-board-list-card-content span{
-  padding: 0px 5px;
+  width: 100%;
+  font-size: 1.2em;
 }
 .fa-home, .fa-user{
   font-size: 1.7em;

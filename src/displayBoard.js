@@ -8,10 +8,10 @@ class TrelloDisplayBoard extends Component {
             list:'',
             lists:[]
         }
+    }
+    componentDidMount() {
         this.GetListsOnSelect()
     }
-    // componentDidMount() {
-    // }
     getList = (e) => {
         this.setState({
             list:e.target.value
@@ -29,11 +29,28 @@ class TrelloDisplayBoard extends Component {
         .then(res => res.json())
         .then(listsData =>
             this.setState({
-                lists: [listsData]
+                lists: listsData.lists
             })
         )
-        // console.log(this.state.lists)
-        // console.log(this.state.list)
+    }
+    archiveList=(id) =>{
+        fetch(
+            `https://api.trello.com/1/lists/${id}/closed?value=true&key=b6e6c194159d7563747cdc5642408d98&token=af7ec08178723de23d448b31e4a424716376da3724aaa797d23aad6782bf3f7b`,
+            {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json"
+              }
+            }
+          )
+            .then(res => res.json())
+            .then(list => {
+                let listsData = this.state.lists
+                listsData.pop()
+                this.setState({
+                    lists:listsData
+                })
+            });
     }
     createNewList =(value,boardId) =>{
         if(value!== ''){
@@ -54,10 +71,9 @@ class TrelloDisplayBoard extends Component {
             )
             .then(res => res.json())
             .then(list => {
-                this.props.updateList(list,true)
-            // this.setState({
-            //   lists:[...this.state.lists,list]
-            // })
+                this.setState({
+                    lists:[...this.state.lists,list]
+                })
             });
         }
     }
@@ -79,7 +95,7 @@ class TrelloDisplayBoard extends Component {
                                         cards={this.props.cards}
                                         createNewCard ={this.props.createNewCard}
                                         listData={list}
-                                        updateList={this.props.updateList}
+                                        archiveList={this.archiveList}
                                     />
                           })
                         : null

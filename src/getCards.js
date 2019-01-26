@@ -36,7 +36,7 @@ class TrelloGetCards extends Component {
             (this.props.cardData.idList === this.props.listId)
             ?   <div className='trello-board-list-card-content'>
                     <p onClick={this.openCard}>{this.props.cardData.name}</p>
-                    <span>&times;</span>
+                    <span onClick={()=>(this.props.DeleteCard(this.props.cardData.id))}>&times;</span>
                 </div>
             : null
         }
