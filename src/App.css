@@ -20,6 +20,7 @@ body{
   align-items: center;
 }
 .trello-board-nav-bar{
+  /* position: fixed; */
   display: flex;
   justify-content: space-between;
   height: 30px;
@@ -32,16 +33,96 @@ body{
   /* color: rgba(255, 255, 255, 0.6); */
 }
 .trello-board-lists{
-  display: flex;
-  justify-content: space-around;
+  display: grid;
+  grid-auto-flow: column;
+  overflow: auto;
+  grid-template-columns: 20% 20% 20% 20% 20%;
+}
+.trello-board-lists form{
+  display: grid;
+  grid-template-columns: 75% auto;
+}
+.trello-board-lists form input{
+  height: 15px;
+}
+.trello-board-lists form button{
+  height: 20px;
 }
 .trello-board-list{
   background-color: rgba(0,0,0,0.2);
   width: 200px;
-  padding: 0px 10px;
+  padding: 15px 10px;
   border-radius: 5%;
+  margin: 0% 10%;
+  height: fit-content;
+}
+.trello-board-list form{
+  padding: 10px 0px;
+  display: grid;
+  grid-template-columns: 70% auto;
+}
+.trello-board-cards{
+  cursor: pointer;
 }
 .trello-board-cards p{
+  padding:0px 5px;
+}
+
+.trello-card-window {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  background-color: rgba(0,0,0, 0.5);
+}
+.trello-card-window-content {
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  top: 10%;
+  bottom: 10%;
+  margin: auto;
+  background: white;
+  overflow-y: auto;
+}
+.trello-card-window-content-close{
+  font-size: xx-large;
+  position: absolute;
+  right: 0;
+  margin: 10px 25px;
+  /* display: block; */
+}
+.trello-card-window-data {
+  margin: 5%;
+}
+.trello-board-list-card-content{
+  width: 100%;
+  height: 40px;
+  display: grid;
+  grid-template-columns: 85% auto;
+  align-items: center;
   background-color: rgba(255, 255, 255, 0.5);
-  padding:5px 2px;
+  margin: 5px 0px;
+  border-radius: 6px;
+}
+.trello-board-list-card-content span{
+  padding: 0px 5px;
+}
+.fa-home, .fa-user{
+  font-size: 1.7em;
+  padding: 0px 10px;
+  cursor: pointer;
+}
+.trello-board-list-title{
+  display: flex;
+  justify-content: space-between;
+  padding: 2px;
+}
+.trello-board-delete-list{
+  cursor: pointer;
+  font-size: 1.3em;
 }

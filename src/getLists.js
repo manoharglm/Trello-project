@@ -5,7 +5,6 @@ class TrelloGetList extends Component {
         super(props);
         this.state = {
             card:'',
-            cards:this.props.cards
         }
     }
     getCard = (e) => {
@@ -13,38 +12,34 @@ class TrelloGetList extends Component {
             card:e.target.value
         })
     }
-    createNewCard = (value, listId) => {
-        let bodyData = {
-          name: value,
-          idList: listId
-        };
-        fetch(
-          `https://api.trello.com/1/cards?keepFromSource=all&key=b6e6c194159d7563747cdc5642408d98&token=af7ec08178723de23d448b31e4a424716376da3724aaa797d23aad6782bf3f7b`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify(bodyData)
-          }
-        )
-          .then(res => res.json())
-          .then(card => {
-            this.setState({
-              cards:[...this.state.cards,card]
-            })
-          });
-      };
     onSubmit=(e)=>{
         e.preventDefault()
-        this.createNewCard(this.state.card,this.props.listData.id)
+        this.props.createNewCard(this.state.card,this.props.listData.id)
         this.setState({card:''})
     }
+    //https://api.trello.com/1/lists/5c4af8461e3ae476dad7341c/closed?value=true&key=b6e6c194159d7563747cdc5642408d98&token=af7ec08178723de23d448b31e4a424716376da3724aaa797d23aad6782bf3f7b
+    archiveList=() =>{
+        fetch(
+            `https://api.trello.com/1/lists/${this.props.listData.id}/closed?value=true&key=b6e6c194159d7563747cdc5642408d98&token=af7ec08178723de23d448b31e4a424716376da3724aaa797d23aad6782bf3f7b`,
+            {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json"
+              }
+            }
+          )
+            .then(res => res.json())
+            .then(list => {
+                this.props.updateList(list,false)
+            });
+    }
     render() {
-        console.log("rendered")
         return(
             <div className='trello-board-list'>
-            <p>{this.props.listData.name}</p>
+            <div className='trello-board-list-title'>
+                <span>{this.props.listData.name}</span>
+                <span className='trello-board-delete-list' onClick={this.archiveList}>&times;</span>
+            </div>
             {
                 this.props.cards.map(card =>
                     <GetCard listId={this.props.listData.id} cardData={card}/>
