@@ -7,7 +7,6 @@ class TrelloDisplayCard extends Component {
         this.state = {
             checklists:[],
             checklistVal:'',
-            // checkListIds:this.props.checkListIds
         }
     }
     componentDidMount(){
@@ -15,9 +14,6 @@ class TrelloDisplayCard extends Component {
             this.props.checkListIds.map(checklist => this.getChecklists(checklist))
         }
     }
-    // componentDidUpdate(){
-    //     if()
-    // }
     getChecklists = id =>{
         fetch(
             `https://api.trello.com/1/checklists/${id}?fields=name&cards=all&card_fields=name&key=b6e6c194159d7563747cdc5642408d98&token=af7ec08178723de23d448b31e4a424716376da3724aaa797d23aad6782bf3f7b`,
@@ -76,7 +72,6 @@ class TrelloDisplayCard extends Component {
               },
             }
         )
-        .then(res => res.json())
         .then(_ => {
             let cardData = this.state.checklists.filter(checkList => checkList.id !== id)
             this.setState({
