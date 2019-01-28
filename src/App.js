@@ -32,6 +32,27 @@ class App extends Component {
       );
   };
 
+  // setBackground= ()=>{
+  //   // console.log()
+  //   // console.log(board.prefs.backgroundImage)
+  //   this.state.boards.map(board=> {
+  //     if(board.prefs.backgroundImage){
+  //       let imgUrl = 'images/berlin.jpg'
+  //       let styles = {
+  //           root: {
+  //              backgroundImage: `url(${ imgUrl })`,
+  //              backgroundRepeat  : 'no-repeat',
+  //              backgroundPosition: 'center',
+  //         }
+  //       }
+  //     }else{
+  //       console.log(board.prefs.backgroundColor)
+  //     }
+  //     // (board.prefs.backgroundImage)
+  //     // ? console.log(board.prefs.backgroundImage)
+  //     // : console.log(board.prefs.backgroundColor)
+  //   })
+  // }
   DisplayBoardOnSelect = id => {
     fetch(
       `https://api.trello.com/1/boards/${id}?cards=all&checklists=none&fields=name%2Cdesc%2CdescData%2Cclosed%2CidOrganization%2Cpinned%2Curl%2CshortUrl%2Cprefs%2ClabelNames&lists=open&key=b6e6c194159d7563747cdc5642408d98&token=af7ec08178723de23d448b31e4a424716376da3724aaa797d23aad6782bf3f7b`,
@@ -65,7 +86,6 @@ class App extends Component {
           />
         ) : this.state.boards.length !== 0 ? (
           <div className="trello-home-boards">
-            {" "}
             {this.state.boards.map(board => (
               <SelectBoard
                 DisplayBoardOnSelect={this.DisplayBoardOnSelect}

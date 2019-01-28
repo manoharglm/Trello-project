@@ -5,20 +5,21 @@ class TrelloChecklist extends Component {
         super(props);
         this.state = {
             checkItemValue:'',
-            checkItems:[]
+            checkItems:[],
+            checkListId:this.props.checkListId
         }
     }
     componentDidMount(){
-        this.getChecklists()
+        this.getChecklistItems()
     }
     checkItemValue = e =>{
         this.setState({
             checkItemValue:e.target.value
         })
     }
-    getChecklists = _ =>{
+    getChecklistItems = _ =>{
         fetch(
-            `https://api.trello.com/1/checklists/${this.props.checkListId}?fields=name&cards=all&card_fields=name&key=b6e6c194159d7563747cdc5642408d98&token=af7ec08178723de23d448b31e4a424716376da3724aaa797d23aad6782bf3f7b`,
+            `https://api.trello.com/1/checklists/${this.state.checkListId}?fields=name&cards=all&card_fields=name&key=b6e6c194159d7563747cdc5642408d98&token=af7ec08178723de23d448b31e4a424716376da3724aaa797d23aad6782bf3f7b`,
             {
                 headers: {
                     "Content-Type": "application/json"
@@ -90,7 +91,7 @@ class TrelloChecklist extends Component {
     }
     deleteCheckItem=(id)=>{
         fetch(
-            `https://api.trello.com/1/checklists/${this.props.checkListId}/checkItems/${id}?key=b6e6c194159d7563747cdc5642408d98&token=af7ec08178723de23d448b31e4a424716376da3724aaa797d23aad6782bf3f7b`,
+            `https://api.trello.com/1/checklists/${this.state.checkListId}/checkItems/${id}?key=b6e6c194159d7563747cdc5642408d98&token=af7ec08178723de23d448b31e4a424716376da3724aaa797d23aad6782bf3f7b`,
             {
               method: "DELETE",
               headers: {
@@ -105,16 +106,13 @@ class TrelloChecklist extends Component {
             })
         });
     }
-    //https://api.trello.com/1/checklists/5c4ec0fa3b68f4736114b2e5/checkItems/5c4ec3b33e446a2f223fdacc?key=b6e6c194159d7563747cdc5642408d98&token=af7ec08178723de23d448b31e4a424716376da3724aaa797d23aad6782bf3f7b
-
     render() {
-        console.log(this.state.checkItems)
         return(
             <div>
                 {
                     this.state.checkItems.map(checkListItem =>{
                         return(
-                            <div>
+                            <div className='trello-checklist-item'>
                             {
                                 (checkListItem.state === 'complete')
                                 ?   <input type="checkbox" onClick={(e) => this.updateCheckItem(checkListItem.id,e.target.checked)} checked></input>
@@ -126,7 +124,7 @@ class TrelloChecklist extends Component {
                         )
                     })
                 }
-                <form className='trello-board-checkitem-form' onSubmit={(e)=>this.createItemInList(e,this.props.checkListId)}>
+                <form className='trello-board-checkitem-form' onSubmit={(e)=>this.createItemInList(e,this.state.checkListId)}>
                     <input onChange={this.checkItemValue} type='text' placeholder='Add New Item'></input>
                     <button>Submit</button>
                 </form>

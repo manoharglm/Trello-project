@@ -2,6 +2,9 @@ body{
   margin: 0;
   padding: 0;
 }
+*{
+  font-family: 'Roboto', sans-serif;
+}
 .trello-home-board{
   margin-bottom: 2%;
   display: block;
@@ -30,13 +33,13 @@ body{
   font-family: 'Lobster', cursive;
   font-size: 1.8em;
   align-self: center;
-  /* color: rgba(255, 255, 255, 0.6); */
 }
 .trello-board-lists{
   display: grid;
   grid-auto-flow: column;
   overflow: auto;
   grid-template-columns: 20% 20% 20% 20% 20%;
+  height: 84vh;
 }
 .trello-board-lists form{
   display: grid;
@@ -81,11 +84,12 @@ body{
 }
 .trello-card-window-content {
   position: absolute;
-  left: 10%;
-  right: 10%;
+  left: 20%;
+  right: 20%;
   top: 10%;
   bottom: 10%;
   margin: auto;
+  padding: 2% 3%;
   background: white;
   overflow-y: auto;
 }
@@ -126,4 +130,43 @@ body{
 .trello-board-delete-list{
   cursor: pointer;
   font-size: 1.3em;
+}
+.trello-card-checklist-title{
+  display: grid;
+  grid-template-columns: 80% 10%;
+  margin: 0% 3%;
+}
+.trello-card-checklist-title button{
+  background: transparent;
+  border: none;
+  font-size: 1.2em;
+  cursor: pointer;
+}
+.trello-card-window-content form{
+  width: 80%;
+  padding: 2% 3%;
+}
+.trello-window-checklist-content{
+  background-color:rgba(0, 0, 0, 0.2);
+  margin: 3% 1%;
+  padding: 2% 1%;
+  border-radius: 10px;
+}
+.trello-checklist-item{
+  margin: 2% 5%;
+  display: grid;
+  grid-template-columns: 10% 50% 10%;
+}
+.trello-checklist-item input{
+  width: 15px;
+}
+.trello-checklist-item button{
+  background-color: transparent;
+  border: none;
+  font-size: 1.2em;
+  cursor: pointer;
+}
+.trello-board-checkitem-form{
+  display: grid;
+  grid-template-columns: 50% 5%;
 }

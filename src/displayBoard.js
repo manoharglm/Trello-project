@@ -45,8 +45,7 @@ class TrelloDisplayBoard extends Component {
           )
             .then(res => res.json())
             .then(list => {
-                let listsData = this.state.lists
-                listsData.pop()
+                let listsData = this.state.lists.filter(list => list.id !== id)
                 this.setState({
                     lists:listsData
                 })
@@ -85,7 +84,7 @@ class TrelloDisplayBoard extends Component {
     render() {
         return (
             <div className='trello-board'>
-                <p className='trello-board-name'>{this.props.boardName}</p>
+                <h2 className='trello-board-name'>{this.props.boardName}</h2>
                 <div className='trello-board-lists'>
                     {   (this.state.lists.length !== 0)
                         ? this.state.lists.map(list =>{
