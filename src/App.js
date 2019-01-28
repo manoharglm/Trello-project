@@ -10,8 +10,6 @@ class App extends Component {
     this.state = {
       boards: [],
       board: [],
-      // cards:'',
-      lists:[]
     };
   }
   componentDidMount() {
@@ -57,19 +55,12 @@ class App extends Component {
   };
 
   render() {
-    console.log('home rendered')
     return (
       <div className="App">
         <NavBarTrelloBoard goToHomePage={this.goToHomePage} />{" "}
         {this.state.board.length !== 0 ? (
           <DisplayBoardOnSelect
-            updateList={this.updateList}
-            DisplayBoardOnSelect={this.DisplayBoardOnSelect}
             boardName={this.state.board.name}
-            lists={this.state.board.lists}
-            cards={this.state.board.cards}
-            createNewCard={this.createNewCard}
-            createNewList={this.createNewList}
             boardId={this.state.board.id}
           />
         ) : this.state.boards.length !== 0 ? (
@@ -90,5 +81,4 @@ class App extends Component {
     );
   }
 }
-
 export default App;

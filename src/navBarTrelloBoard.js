@@ -3,9 +3,9 @@ import React from 'react';
 const NavBarTrelloBoard=(props) => {
     return (
         <div className='trello-board-nav-bar'>
-            <i onClick={()=> props.goToHomePage()} class="fas fa-home"></i>
+            <i onClick={()=> props.goToHomePage()} className="fas fa-home"></i>
             <span>Trello</span>
-            <i class="fas fa-user"></i>        
+            <i className="fas fa-user"></i>        
         </div> 
     );
 }

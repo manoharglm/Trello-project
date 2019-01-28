@@ -94,7 +94,6 @@ body{
   position: absolute;
   right: 0;
   margin: 10px 25px;
-  /* display: block; */
 }
 .trello-card-window-data {
   margin: 5%;
@@ -112,6 +111,7 @@ body{
 .trello-board-list-card-content span{
   width: 100%;
   font-size: 1.2em;
+  text-align: center;
 }
 .fa-home, .fa-user{
   font-size: 1.7em;

@@ -83,7 +83,6 @@ class TrelloDisplayBoard extends Component {
         this.setState({list:''})
     }
     render() {
-        console.log(`state of list${this.state.lists.length}`)
         return (
             <div className='trello-board'>
                 <p className='trello-board-name'>{this.props.boardName}</p>
@@ -91,9 +90,7 @@ class TrelloDisplayBoard extends Component {
                     {   (this.state.lists.length !== 0)
                         ? this.state.lists.map(list =>{
                             return  <GetList
-                                        lists={this.props.lists}
-                                        cards={this.props.cards}
-                                        createNewCard ={this.props.createNewCard}
+                                        lists={this.state.lists}
                                         listData={list}
                                         archiveList={this.archiveList}
                                     />

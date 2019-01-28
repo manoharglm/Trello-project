@@ -73,9 +73,8 @@ class TrelloGetList extends Component {
             }
           )
             .then(res => res.json())
-            .then(card => {
-                let cardData = this.state.cards
-                cardData = cardData.filter(card => card.id !== id)
+            .then(_ => {
+                let cardData = this.state.cards.filter(card => card.id !== id)
                 this.setState({
                     cards:cardData
                 })
