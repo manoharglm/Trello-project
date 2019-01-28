@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
+import CheckListItems from './checklistItems'
 
 class TrelloDisplayCard extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            card:'',
             checklists:[],
             checklistVal:'',
-            checkItemValue:'',
-            checkItems:[]
+            // checkListIds:this.props.checkListIds
         }
     }
     componentDidMount(){
@@ -16,7 +15,9 @@ class TrelloDisplayCard extends Component {
             this.props.checkListIds.map(checklist => this.getChecklists(checklist))
         }
     }
-
+    // componentDidUpdate(){
+    //     if()
+    // }
     getChecklists = id =>{
         fetch(
             `https://api.trello.com/1/checklists/${id}?fields=name&cards=all&card_fields=name&key=b6e6c194159d7563747cdc5642408d98&token=af7ec08178723de23d448b31e4a424716376da3724aaa797d23aad6782bf3f7b`,
@@ -29,17 +30,11 @@ class TrelloDisplayCard extends Component {
         .then(res => res.json())
         .then(checkListData=>{
             this.setState({
-                checklists:[...this.state.checklists,checkListData],
-                checkItems:[...this.state.checkItems,checkListData.checkItems]
+                checklists:[...this.state.checklists,checkListData]
             })
         })
     }
     checklistValue = e =>{
-        this.setState({
-            checklistVal:e.target.value
-        })
-    }
-    checkItemValue = e =>{
         this.setState({
             checklistVal:e.target.value
         })
@@ -64,8 +59,10 @@ class TrelloDisplayCard extends Component {
             )
               .then(res => res.json())
               .then(checklist => {
+                this.props.updatChecklistIdState(checklist.id)
                 this.setState({
-                    checklists:[...this.state.checklists,checklist]
+                    checklists:[...this.state.checklists,checklist],
+                    // checkListIds:[...this.props.checkListIds,checklist.id]
                 })
               });
     }
@@ -78,100 +75,46 @@ class TrelloDisplayCard extends Component {
                 "Content-Type": "application/json"
               },
             }
-          )
-            .then(res => res.json())
-            .then(_ => {
-                let cardData = this.state.checklists.filter(checkList => checkList.id !== id)
-                this.setState({
-                    checklists:cardData
-                })
-            });
-    }
-
-    createItemInList =(e,id)=>{
-        e.preventDefault()
-        let bodyData = {
-            name: this.state.checklistVal,
-            pos:'bottom'
-        };
-        fetch(
-          `https://api.trello.com/1/checklists/${id}/checkItems?key=b6e6c194159d7563747cdc5642408d98&token=af7ec08178723de23d448b31e4a424716376da3724aaa797d23aad6782bf3f7b`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify(bodyData)
-          }
         )
-          .then(res => res.json())
-          .then(item => {
+        .then(res => res.json())
+        .then(_ => {
+            let cardData = this.state.checklists.filter(checkList => checkList.id !== id)
             this.setState({
-              checkItems:[...this.state.checkItems,item]
+                checklists:cardData
             })
-          });
-}
-
+        });
+    }
     render() {
+        console.log(this.state.checklists)
         return (
         <div className='trello-card-window'>
             <div className="trello-card-window-content">
                 <span className="trello-card-window-content-close" onClick={() =>this.props.closeWindow()}>&times;</span>
-                <div className='trello-card-window-data'>
-                    <p>{this.props.cardName}</p>
-                    {/* <div className='trello-board-card-description'>
-                        <span>Description:</span>
-                        {
-                            (this.props.cardData.desc !== '')
-                            ?<span>{this.props.cardData.desc}</span>
-                            :<input type='text' placeholder='Enter Description'></input>
-                        }
-                    </div> */}
-                    {
-                            <div>
-                            {
-                                this.state.checklists.map(checkList=>{
-                                return(
-                                    <div>
-                                    <div className='trello-card-checklist-title'>
-                                        <label>{checkList.name}</label>
-                                        <button onClick={()=>this.deleteChecklist(checkList.id)}>&times;</button>
-                                    </div>
-                                    {
-                                        checkList.checkItems.map(checkListItem =>{
-                                        return(
-                                            <div>
-                                            {
-                                                (checkListItem.state === 'complete')
-                                                ?   <input type="checkbox" checked></input>
-                                                :   <input type="checkbox"></input>
-                                            }
-                                                <span>{checkListItem.name}</span>
-                                            </div>
-                                        )
-                                        }) 
-                                    }
-                                    <form onSubmit={(e)=>this.createItemInList(e,checkList.id)}>
-                                        <input onChange={this.checkItemValue} type='text' placeholder='Add New Item'></input>
-                                        <button>Submit</button>
-                                    </form>
-                                    </div>
-                                )
-                                }) 
-                            }
-                            {   
-                                <form onSubmit={this.createNewChecklist}>
-                                    <input onChange={this.checklistValue} type='text' placeholder='Add New Checklist'></input>
-                                    <button>Submit</button>
-                                </form>
-                            }
+                <p>{this.props.cardName}</p>
+                {
+                    this.state.checklists.map(checkList=>{
+                    return(
+                        <div>
+                            <div className='trello-card-checklist-title'>
+                                <label>{checkList.name}</label>
+                                <button onClick={()=>this.deleteChecklist(checkList.id)}>&times;</button>
                             </div>
-                        // :  null
-                    }
-                </div>
+                            <CheckListItems
+                                checkItems={checkList.checkItems}
+                                checkListId={checkList.id}
+                                cardId={this.props.cardId}
+                            />
+                        </div>
+                    )
+                    }) 
+                }
+                <form onSubmit={this.createNewChecklist}>
+                    <input onChange={this.checklistValue} type='text' placeholder='Add New Checklist'></input>
+                    <button>Submit</button>
+                </form>
             </div>            
         </div>
-    );
+        );
     }
 }
 

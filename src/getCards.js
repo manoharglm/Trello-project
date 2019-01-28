@@ -5,7 +5,8 @@ class TrelloGetCards extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            showPopup: false
+            showPopup: false,
+            checkListIds:this.props.cardData.idChecklists
         }
     }
     openCard=()=>{
@@ -13,8 +14,12 @@ class TrelloGetCards extends Component {
             showPopup: !this.state.showPopup
         })
     }
+    updatChecklistIdState = (checkListId) =>{
+        this.setState({
+            checkListIds:[...this.state.checkListIds,checkListId]
+        })
+    }
     render() {
-        // console.log(this.props.cardData)
     return(
         <div className='trello-board-cards'>
         {
@@ -30,8 +35,9 @@ class TrelloGetCards extends Component {
             ? <DisplayCard
                 cardId={this.props.cardData.id}
                 cardName={this.props.cardData.name}
-                checkListIds={this.props.cardData.idChecklists}
+                checkListIds={this.state.checkListIds}
                 closeWindow ={this.openCard}
+                updatChecklistIdState={this.updatChecklistIdState}
               />
             : null
         }
