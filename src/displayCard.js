@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 import CheckListItems from './checklistItems'
+import Button from '@material-ui/core/Button';
+import {MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+
 
 class TrelloDisplayCard extends Component {
     constructor(props) {
@@ -57,6 +61,7 @@ class TrelloDisplayCard extends Component {
             this.props.updatChecklistIdState(checklist.id)
             this.setState({
                 checklists:[...this.state.checklists,checklist],
+                checklistVal:''
             })
         });
     }
@@ -89,7 +94,7 @@ class TrelloDisplayCard extends Component {
                     return(
                         <div className='trello-window-checklist-content'>
                             <div className='trello-card-checklist-title'>
-                                <label>{checkList.name}</label>
+                                <h5>{checkList.name}</h5>
                                 <button onClick={()=>this.deleteChecklist(checkList.id)}>&times;</button>
                             </div>
                             <CheckListItems
@@ -101,14 +106,37 @@ class TrelloDisplayCard extends Component {
                     )
                     }) 
                 }
-                <form onSubmit={this.createNewChecklist}>
-                    <input onChange={this.checklistValue} type='text' placeholder='Add New Checklist'></input>
-                    <button>Submit</button>
+                <h4>Add New Checklist</h4>
+                <form className='trello-window-checlist-form' onSubmit={this.createNewChecklist}>
+                    {/* <input onChange={this.checklistValue} type='text' placeholder='Add New Checklist'></input>
+                    <button>Submit</button> */}
+                    <MuiThemeProvider>
+                        <React.Fragment>
+                        <TextField
+                            value={this.state.checklistVal}
+                            placeholder="Add New Checklist"
+                            floatingLabelText='Checklist Item'
+                            onChange={this.checklistValue}
+                        />
+                        <Button 
+                            size='small' variant='contained'
+                            style={styles.button}
+                            onClick={this.createNewChecklist}
+                        >
+                            Submit
+                        </Button>
+                        </React.Fragment>
+                    </MuiThemeProvider>
                 </form>
                 </div>
             </div>            
         </div>
         );
+    }
+}
+const styles ={
+    button:{
+        height:30
     }
 }
 
