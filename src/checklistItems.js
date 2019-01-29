@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Button from '@material-ui/core/Button';
 import {MuiThemeProvider } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -14,7 +14,6 @@ class TrelloChecklist extends Component {
             checkItemValue:'',
             checkItems:[],
             checkListId:this.props.checkListId,
-            // checkItemState:'false'
         }
     }
     componentDidMount(){
@@ -25,11 +24,6 @@ class TrelloChecklist extends Component {
             checkItemValue:e.target.value
         })
     }
-    // handleCheckItem=(state)=>{
-    //         this.setState((prevState)=>({
-    //             checkItemState: state 
-    //         }))
-    // }
     getChecklistItems = _ =>{
         fetch(
             `https://api.trello.com/1/checklists/${this.state.checkListId}?fields=name&cards=all&card_fields=name&key=b6e6c194159d7563747cdc5642408d98&token=af7ec08178723de23d448b31e4a424716376da3724aaa797d23aad6782bf3f7b`,
@@ -125,55 +119,45 @@ class TrelloChecklist extends Component {
         console.log('rendered')
         return(
             <div>
-                {
-                    this.state.checkItems.map(checkListItem =>{
-                        return(
-                            <div className='trello-checklist-item'>
-                            <MuiThemeProvider>
-                                    {
-                                        (checkListItem.state === 'complete')
-                                        ?  <FormControlLabel
-                                                control={
-                                                <Checkbox
-                                                    onChange={(e) => {
-                                                        this.updateCheckItem(checkListItem.id,e.target.checked)
-                                                    }}
-                                                    value = 'true'
-                                                    // classes={{
-                                                    //     checked: {'true'}
-                                                    // }}
-                                                />
-                                                }
-                                                label={checkListItem.name}
-                                            />
-                                        :   <FormControlLabel
-                                                control={
-                                                <Checkbox
-                                                    onChange={(e) => {
-                                                        this.updateCheckItem(checkListItem.id,e.target.checked)
-                                                    }}
-                                                    value = 'false'
-
-                                                    // classes={{
-                                                    //     checked: {}
-                                                    // }}
-                                                />
-                                                }
-                                                label={checkListItem.name}
-                                            />
-                                    }
-
-                                <IconButton 
-                                    aria-label="Delete" 
-                                    onClick={()=>this.deleteCheckItem(checkListItem.id)}
-                                >
-                                    <DeleteIcon />
-                                </IconButton>
-                            </MuiThemeProvider>
-                            </div>
-                        )
-                    })
-                }
+            {
+            this.state.checkItems.map(checkListItem =>{
+                return(
+                    <div className='trello-checklist-item'>
+                    <MuiThemeProvider>
+                    {
+                        (checkListItem.state === 'complete')
+                        ?  <FormControlLabel
+                                control={
+                                <Checkbox
+                                    onChange={(e) => {
+                                        this.updateCheckItem(checkListItem.id,e.target.checked)
+                                    }}
+                                    checked={true}
+                                />
+                                }
+                                label={checkListItem.name}
+                            />
+                        :   <FormControlLabel
+                                control={
+                                <Checkbox
+                                    onChange={(e) => {
+                                        this.updateCheckItem(checkListItem.id,e.target.checked)
+                                    }}
+                                />
+                                }
+                                label={checkListItem.name}
+                            />
+                    }
+                        <IconButton 
+                            aria-label="Delete" 
+                            onClick={()=>this.deleteCheckItem(checkListItem.id)}>
+                            <DeleteIcon />
+                        </IconButton>
+                    </MuiThemeProvider>
+                    </div>
+                )
+            })
+            }
                 <form className='trello-board-checkitem-form' onSubmit={(e)=>this.createItemInList(e,this.state.checkListId)}>
                     <MuiThemeProvider>
                         <React.Fragment>
@@ -207,7 +191,6 @@ const styles ={
         height:20
     },
 }
-
 export default TrelloChecklist
 
 

@@ -96,7 +96,7 @@ class TrelloGetList extends Component {
                     />
                 )
             }
-            <form onSubmit={this.onSubmit}>
+            <form className='trello-board-list-form' onSubmit={this.onSubmit}>
                 <input  placeholder='Create new Card'
                         value={this.state.card}  
                         type='text'

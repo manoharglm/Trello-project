@@ -23,7 +23,6 @@ body{
   align-items: center;
 }
 .trello-board-nav-bar{
-  /* position: fixed; */
   display: flex;
   justify-content: space-between;
   height: 30px;
@@ -36,21 +35,12 @@ body{
 }
 .trello-board-lists{
   display: grid;
+  grid-column-gap: 0;
   grid-auto-flow: column;
-  overflow: auto;
-  grid-template-columns: 20% 20% 20% 20% 20%;
+  overflow-x: auto;
   height: 84vh;
+  grid-template-columns: 300px repeat(auto-fill, 300px) 300px;
 }
-/* .trello-board-lists form{
-  display: grid;
-  grid-template-columns: 75% auto;
-} */
-/* .trello-board-lists form input{
-  height: 15px;
-} */
-/* .trello-board-lists form button{
-  height: 20px;
-} */
 .trello-board-list{
   background-color: rgba(0,0,0,0.2);
   width: 200px;
@@ -59,11 +49,11 @@ body{
   margin: 0% 10%;
   height: fit-content;
 }
-/* .trello-board-list form{
+.trello-board-list-form{
   padding: 10px 0px;
   display: grid;
   grid-template-columns: 70% auto;
-} */
+}
 .trello-board-cards{
   cursor: pointer;
 }
@@ -143,16 +133,10 @@ body{
   cursor: pointer;
   outline: none;
 }
-/* .trello-card-window-content form{
-  width: 80%;
-  padding: 2% 3%;
-} */
 .trello-window-checklist-content{
-  /* background-color:rgba(0, 0, 0, 0.2); */
   margin: 3% 1%;
   padding: 2% 1%;
   border: 1px solid rgba(0,0,0,0.1);
-  /* border-radius: 10px; */
 }
 .trello-checklist-item{
   margin: 2% 5%;

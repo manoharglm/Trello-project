@@ -44,7 +44,7 @@ class TrelloDisplayBoard extends Component {
             }
           )
             .then(res => res.json())
-            .then(list => {
+            .then(_ => {
                 let listsData = this.state.lists.filter(list => list.id !== id)
                 this.setState({
                     lists:listsData
