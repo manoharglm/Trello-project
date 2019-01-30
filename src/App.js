@@ -57,23 +57,27 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <NavBarTrelloBoard goToHomePage={this.goToHomePage} />{" "}
         {this.state.board.length !== 0 ? (
           <DisplayBoardOnSelect
             boardName={this.state.board.name}
             boardId={this.state.board.id}
             background={this.state.board.prefs}
+            goToHomePage={this.goToHomePage}
           />
         ) : this.state.boards.length !== 0 ? (
-          <div className="trello-home-boards">
-            {this.state.boards.map(board => (
-              <SelectBoard
-                getBoardOnSelect={this.getBoardOnSelect}
-                boardId={board.id}
-                boardName={board.name}
-              />
-            ))}{" "}
+          <div>
+            <NavBarTrelloBoard goToHomePage={this.goToHomePage} />
+            <div className="trello-home-boards">
+              {this.state.boards.map(board => (
+                <SelectBoard
+                  getBoardOnSelect={this.getBoardOnSelect}
+                  boardId={board.id}
+                  boardName={board.name}
+                />
+              ))}{" "}
+            </div>
           </div>
+
         ) : (
           ""
         )}{" "}

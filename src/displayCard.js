@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import CheckListItems from './checklistItems'
 import Button from '@material-ui/core/Button';
-import {MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import {MuiThemeProvider} from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 
 
@@ -108,8 +108,6 @@ class TrelloDisplayCard extends Component {
                 }
                 <h4>Add New Checklist</h4>
                 <form className='trello-window-checlist-form' onSubmit={this.createNewChecklist}>
-                    {/* <input onChange={this.checklistValue} type='text' placeholder='Add New Checklist'></input>
-                    <button>Submit</button> */}
                     <MuiThemeProvider>
                         <React.Fragment>
                         <TextField

@@ -22,15 +22,19 @@ body{
   flex-direction: column;
   align-items: center;
 }
+.trello-board-name{
+color: rgba(256,256,256,0.8);
+}
 .trello-board-nav-bar{
   display: flex;
   justify-content: space-between;
   height: 30px;
-  border: 1px solid rgba(0,0,0,0.1);
+  background-color: rgba(0,0,0,0.2);
+  color: rgba(256,256,256,0.7);
 }
 .trello-board-nav-bar span{
   font-family: 'Lobster', cursive;
-  font-size: 1.8em;
+  font-size: 2em;
   align-self: center;
 }
 .trello-board-lists{
@@ -41,18 +45,40 @@ body{
   height: 84vh;
   grid-template-columns: 300px repeat(auto-fill, 300px) 300px;
 }
+/* .trello-board-lists-form button{
+  background-color: green;
+  border-color: green;
+  outline: none;
+  color: aliceblue;
+} */
 .trello-board-list{
-  background-color: rgba(0,0,0,0.2);
+  background-color: rgba(0,0,0,0.7); 
+  color: rgba(256,256,256,0.8);
+  font-size: 1.3em;
+  font-weight: 200;
   width: 200px;
   padding: 15px 10px;
   border-radius: 5%;
   margin: 0% 10%;
   height: fit-content;
 }
-.trello-board-list-form{
+.trello-board-lists-form{
+  height: 25px ;
+}
+
+.trello-board-list-form,.trello-board-lists-form{
   padding: 10px 0px;
   display: grid;
   grid-template-columns: 70% auto;
+}
+.trello-board-list-form input,.trello-board-lists-form input{
+  height: 1.4em;
+}
+.trello-board-list-form button,.trello-board-lists-form button{
+  background-color: green;
+  border-color: green;
+  outline: none;
+  color: aliceblue;
 }
 .trello-board-cards{
   cursor: pointer;
@@ -81,6 +107,7 @@ body{
   margin: auto;
   padding: 2% 3%;
   background: white;
+  color: black;
   overflow-y: auto;
 }
 .trello-card-window-content-close{
@@ -95,6 +122,8 @@ body{
 .trello-board-list-card-content{
   width: 100%;
   height: 40px;
+  font-size: 0.8em;
+  color: black;
   display: grid;
   grid-template-columns: 85% auto;
   align-items: center;

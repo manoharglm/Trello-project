@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import GetList from './getLists'
+import NavBarTrelloBoard from "./navBarTrelloBoard";
 
 class TrelloDisplayBoard extends Component {
     constructor(props) {
@@ -12,6 +13,12 @@ class TrelloDisplayBoard extends Component {
     componentDidMount() {
         this.GetListsOnSelect()
     }
+    // setBackground= ()=>{
+    //   return (this.props.background.backgroundImage)
+    //   ? { backgroundImage: `url(${this.props.background.backgroundImage})` }
+    //   : { backgroundColor: `${this.props.background.backgroundColor}`}
+    // }
+
     getList = (e) => {
         this.setState({
             list:e.target.value
@@ -83,7 +90,8 @@ class TrelloDisplayBoard extends Component {
     }
     render() {
         return (
-            <div className='trello-board'>
+            <div className='trello-board' style={{ backgroundImage: `url(${this.props.background.backgroundImage})`, backgroundColor: `${this.props.background.backgroundColor}`}}>
+                <NavBarTrelloBoard goToHomePage={this.props.goToHomePage} />
                 <h2 className='trello-board-name'>{this.props.boardName}</h2>
                 <div className='trello-board-lists'>
                     {   (this.state.lists.length !== 0)
@@ -96,7 +104,7 @@ class TrelloDisplayBoard extends Component {
                           })
                         : null
                     }
-                    <form onSubmit={this.onSubmit}>
+                    <form className='trello-board-lists-form' onSubmit={this.onSubmit}>
                         <input  placeholder='Create new List'
                                 value={this.state.card}  
                                 type='text'
@@ -109,5 +117,4 @@ class TrelloDisplayBoard extends Component {
         );
     }
 }
-
 export default TrelloDisplayBoard
