@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import NavBarTrelloBoard from "./navBarTrelloBoard";
 import SelectBoard from "./selectBoard";
 import DisplayBoardOnSelect from "./displayBoard";
+import Fetch from "./fetchAPICalls";
 import "./App.css";
 
 class App extends Component {
@@ -16,38 +17,21 @@ class App extends Component {
     this.getBoards();
   }
   getBoards = () => {
-    fetch(
-      "https://api.trello.com/1/members/me/boards?key=b6e6c194159d7563747cdc5642408d98&token=af7ec08178723de23d448b31e4a424716376da3724aaa797d23aad6782bf3f7b",
-      {
-        headers: {
-          "Content-Type": "application/json"
-        }
-      }
-    )
-      .then(res => res.json())
-      .then(trelloData =>
-        this.setState({
-          boards: trelloData
-        })
-      );
+    Fetch.getBoardsFetch().then((trelloData)=>{
+      this.setState({
+        boards: trelloData
+      })    
+    })
   };
 
   getBoardOnSelect = id => {
-    fetch(
-      `https://api.trello.com/1/boards/${id}?cards=all&checklists=none&fields=name%2Cdesc%2CdescData%2Cclosed%2CidOrganization%2Cpinned%2Curl%2CshortUrl%2Cprefs%2ClabelNames&lists=open&key=b6e6c194159d7563747cdc5642408d98&token=af7ec08178723de23d448b31e4a424716376da3724aaa797d23aad6782bf3f7b`,
-      {
-        headers: {
-          "Content-Type": "application/json"
-        }
-      }
-    )
-      .then(res => res.json())
-      .then(boardData =>
-        this.setState({
-          board: boardData,
-        })
-      );
+    Fetch.getBoardOnSelectFetch(id).then((boardData) =>{
+      this.setState({
+        board: boardData,
+      })
+    })
   };
+
   goToHomePage = () => {
     this.setState(state => ({
       board: ""
@@ -68,11 +52,14 @@ class App extends Component {
           <div>
             <NavBarTrelloBoard goToHomePage={this.goToHomePage} />
             <div className="trello-home-boards">
+              <h2>Your Boards</h2>
               {this.state.boards.map(board => (
                 <SelectBoard
+                  key={board.id}
                   getBoardOnSelect={this.getBoardOnSelect}
                   boardId={board.id}
                   boardName={board.name}
+                  background={board.prefs}
                 />
               ))}{" "}
             </div>

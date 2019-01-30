@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import GetCard from './getCards'
+import Fetch from "./fetchAPICalls";
+
 class TrelloGetList extends Component {
     constructor(props) {
         super(props);
@@ -22,16 +24,7 @@ class TrelloGetList extends Component {
         this.setState({card:''})
     }
     getAllCardsInList = id => {
-        fetch(
-          `https://api.trello.com/1/lists/${id}/cards?key=b6e6c194159d7563747cdc5642408d98&token=af7ec08178723de23d448b31e4a424716376da3724aaa797d23aad6782bf3f7b`,
-          {
-            headers: {
-              "Content-Type": "application/json"
-            }
-          }
-        )
-        .then(res => res.json())
-        .then(cardInList =>
+        Fetch.getAllCardsInListFetch(id).then(cardInList =>
             this.setState({
                 cards: cardInList
             })
@@ -39,47 +32,21 @@ class TrelloGetList extends Component {
     }
     createNewCard = (value, listId) => {
         if(value!== ''){
-    
-          let bodyData = {
-            name: value,
-            idList: listId
-          };
-          fetch(
-            `https://api.trello.com/1/cards?keepFromSource=all&key=b6e6c194159d7563747cdc5642408d98&token=af7ec08178723de23d448b31e4a424716376da3724aaa797d23aad6782bf3f7b`,
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json"
-              },
-              body: JSON.stringify(bodyData)
-            }
-          )
-            .then(res => res.json())
-            .then(card => {
+            Fetch.createNewCardFetch(value,listId).then(card => {
               this.setState({
                 cards:[...this.state.cards,card]
               })
             });
         }
       };
-      DeleteCard =id =>{
-        fetch(
-            `https://api.trello.com/1/cards/${id}?key=b6e6c194159d7563747cdc5642408d98&token=af7ec08178723de23d448b31e4a424716376da3724aaa797d23aad6782bf3f7b`,
-            {
-              method: "DELETE",
-              headers: {
-                "Content-Type": "application/json"
-              },
-            }
-          )
-            .then(res => res.json())
-            .then(_ => {
-                let cardData = this.state.cards.filter(card => card.id !== id)
-                this.setState({
-                    cards:cardData
-                })
-            });
-        }
+    DeleteCard =id =>{
+        Fetch.DeleteCardFetch(id).then(_ => {
+            let cardData = this.state.cards.filter(card => card.id !== id)
+            this.setState({
+                cards:cardData
+            })
+        });
+    }
     render() {
         return(
             <div className='trello-board-list'>
@@ -90,6 +57,7 @@ class TrelloGetList extends Component {
             {
                 this.state.cards.map(card =>
                     <GetCard 
+                        key={card.id}
                         listId={this.props.listData.id} 
                         cardData={card}
                         DeleteCard={this.DeleteCard}

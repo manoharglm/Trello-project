@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import CheckListItems from './checklistItems'
 import Button from '@material-ui/core/Button';
-import {MuiThemeProvider} from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-
+import Fetch from "./fetchAPICalls";
 
 class TrelloDisplayCard extends Component {
     constructor(props) {
@@ -19,16 +18,7 @@ class TrelloDisplayCard extends Component {
         }
     }
     getChecklists = id =>{
-        fetch(
-            `https://api.trello.com/1/checklists/${id}?fields=name&cards=all&card_fields=name&key=b6e6c194159d7563747cdc5642408d98&token=af7ec08178723de23d448b31e4a424716376da3724aaa797d23aad6782bf3f7b`,
-            {
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            }
-        )
-        .then(res => res.json())
-        .then(checkListData=>{
+        Fetch.getChecklistsFetch(id).then(checkListData=>{
             this.setState({
                 checklists:[...this.state.checklists,checkListData]
             })
@@ -41,23 +31,7 @@ class TrelloDisplayCard extends Component {
     }
     createNewChecklist =(e)=>{
         e.preventDefault()
-        let bodyData = {
-            name: this.state.checklistVal,
-            idCard: this.props.cardId
-        };
-        fetch(
-            `https://api.trello.com/1/checklists?key=b6e6c194159d7563747cdc5642408d98&token=af7ec08178723de23d448b31e4a424716376da3724aaa797d23aad6782bf3f7b
-            `,
-            {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(bodyData)
-            }
-        )
-        .then(res => res.json())
-        .then(checklist => {
+        Fetch.createNewChecklistFetch(this.state.checklistVal,this.props.cardId).then(checklist => {
             this.props.updatChecklistIdState(checklist.id)
             this.setState({
                 checklists:[...this.state.checklists,checklist],
@@ -66,16 +40,7 @@ class TrelloDisplayCard extends Component {
         });
     }
     deleteChecklist= id =>{
-        fetch(
-            `https://api.trello.com/1/checklists/${id}?key=b6e6c194159d7563747cdc5642408d98&token=af7ec08178723de23d448b31e4a424716376da3724aaa797d23aad6782bf3f7b`,
-            {
-              method: "DELETE",
-              headers: {
-                "Content-Type": "application/json"
-              },
-            }
-        )
-        .then(_ => {
+        Fetch.deleteChecklistFetch(id).then(_ => {
             let cardData = this.state.checklists.filter(checkList => checkList.id !== id)
             this.setState({
                 checklists:cardData
@@ -92,12 +57,13 @@ class TrelloDisplayCard extends Component {
                 {
                     this.state.checklists.map(checkList=>{
                     return(
-                        <div className='trello-window-checklist-content'>
+                        <div className='trello-window-checklist-content' key={checkList.id}>
                             <div className='trello-card-checklist-title'>
                                 <h5>{checkList.name}</h5>
                                 <button onClick={()=>this.deleteChecklist(checkList.id)}>&times;</button>
                             </div>
                             <CheckListItems
+                                key={checkList.id}
                                 checkItems={checkList.checkItems}
                                 checkListId={checkList.id}
                                 cardId={this.props.cardId}
@@ -108,23 +74,18 @@ class TrelloDisplayCard extends Component {
                 }
                 <h4>Add New Checklist</h4>
                 <form className='trello-window-checlist-form' onSubmit={this.createNewChecklist}>
-                    <MuiThemeProvider>
-                        <React.Fragment>
-                        <TextField
-                            value={this.state.checklistVal}
-                            placeholder="Add New Checklist"
-                            floatingLabelText='Checklist Item'
-                            onChange={this.checklistValue}
-                        />
-                        <Button 
-                            size='small' variant='contained'
-                            style={styles.button}
-                            onClick={this.createNewChecklist}
-                        >
-                            Submit
-                        </Button>
-                        </React.Fragment>
-                    </MuiThemeProvider>
+                    <TextField
+                        value={this.state.checklistVal}
+                        placeholder="Add New Checklist"
+                        onChange={this.checklistValue}
+                    />
+                    <Button 
+                        size='small' variant='contained'
+                        style={styles.button}
+                        onClick={this.createNewChecklist}
+                    >
+                        Submit
+                    </Button>
                 </form>
                 </div>
             </div>            
